@@ -3,7 +3,6 @@ package com.rocha.tarefas.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
