@@ -9,10 +9,14 @@ API REST para criar, listar, atualizar e excluir tarefas. O projeto usa Java 21,
 
 ## Executar a aplicação
 
-Na raiz do projeto, execute:
+Na raiz do projeto, execute o comando correspondente ao seu sistema:
 
 ```powershell
 .\mvnw.cmd spring-boot:run
+```
+
+```bash
+./mvnw spring-boot:run
 ```
 
 Por padrão, a aplicação usa o perfil `dev` e fica disponível em `http://localhost:8080`. Esse perfil usa um banco H2 em memória; os dados são perdidos quando a aplicação é encerrada.
@@ -23,10 +27,18 @@ Para executar os testes:
 .\mvnw.cmd test
 ```
 
+```bash
+./mvnw test
+```
+
 Para gerar o pacote:
 
 ```powershell
 .\mvnw.cmd package
+```
+
+```bash
+./mvnw package
 ```
 
 ## Documentação interativa
@@ -59,7 +71,7 @@ Content-Type: application/json
 }
 ```
 
-O título é obrigatório e aceita até 50 caracteres. A descrição também é obrigatória. O campo `concluida` deve ser informado como `true` ou `false`.
+O título é obrigatório e aceita até 50 caracteres. A descrição também é obrigatória. Use `true` ou `false` em `concluida` para indicar se a tarefa foi concluída.
 
 Exemplo de resposta:
 
@@ -78,7 +90,36 @@ Para atualizar, envie os mesmos campos para `PUT /api/v1/tarefas/{id}`. Para exc
 
 O perfil ativo por padrão está definido em `src/main/resources/application.properties` como `dev`. Ele usa o H2 em memória e configura a porta `8080`.
 
-Há também um perfil `prod`, que usa variáveis de ambiente para configurar a conexão com o banco de dados. Consulte `src/main/resources/application-prod.properties` e defina os valores exigidos antes de executar a aplicação nesse perfil. Para ativá-lo, configure `SPRING_PROFILES_ACTIVE=prod`.
+Há também um perfil `prod`, que usa a porta `3001` e requer estas variáveis de ambiente para conectar ao banco de dados:
+
+- `DATABASE_URL`
+- `DATABASE_DRIVER`
+- `DATABASE_USERNAME`
+- `DATABASE_PASSWORD`
+
+Ative o perfil com `SPRING_PROFILES_ACTIVE=prod`. No PowerShell, por exemplo:
+
+```powershell
+$env:SPRING_PROFILES_ACTIVE = "prod"
+$env:DATABASE_URL = "<url-do-banco>"
+$env:DATABASE_DRIVER = "<classe-do-driver>"
+$env:DATABASE_USERNAME = "<usuario>"
+$env:DATABASE_PASSWORD = "<senha>"
+.\mvnw.cmd spring-boot:run
+```
+
+No Bash:
+
+```bash
+export SPRING_PROFILES_ACTIVE=prod
+export DATABASE_URL="<url-do-banco>"
+export DATABASE_DRIVER="<classe-do-driver>"
+export DATABASE_USERNAME="<usuario>"
+export DATABASE_PASSWORD="<senha>"
+./mvnw spring-boot:run
+```
+
+Os valores de conexão dependem do banco utilizado. Consulte `src/main/resources/application-prod.properties` para os nomes e propriedades esperados.
 
 ## Tecnologias
 
