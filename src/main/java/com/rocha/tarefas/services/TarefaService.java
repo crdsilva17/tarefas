@@ -3,6 +3,7 @@ package com.rocha.tarefas.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.rocha.tarefas.domain.Tarefa;
 import com.rocha.tarefas.repository.TarefaRepository;
@@ -39,6 +40,9 @@ public class TarefaService {
 
     // Deletar uma tarefa pelo ID
     public void deletarTarefa(Long id) {
+        if (!tarefaRepository.existsById(id)) {
+            throw new RuntimeException("Tarefa não encontrada com o ID: " + id);
+        }
         tarefaRepository.deleteById(id);
     }
 }
