@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/tarefas")
@@ -36,6 +37,11 @@ public class TarefaController {
         this.tarefaMapper = tarefaMapper;
     }
 
+    /*====================================================*
+     * Endpoint para buscar a lista de tarefas.
+     *
+     * @return ResponseEntity contendo a lista de tarefas.
+     *=====================================================*/
     @GetMapping
     @Operation(summary = "Busca Lista de Tarefas", description = "Retorna a lista de todas as tarefas.")
     @ApiResponses(value = {
@@ -47,27 +53,46 @@ public class TarefaController {
                                 .collect(Collectors.toList()));
     }
 
+    /*====================================================*
+     * Endpoint para criar uma nova tarefa.
+     *
+     * @param tarefaRequest os dados da tarefa a ser criada.
+     * @return ResponseEntity contendo a tarefa criada.
+     *=====================================================*/
     @PostMapping
     @Operation(summary = "Cria uma nova Tarefa", description = "Cria uma nova tarefa com base nos dados fornecidos.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Tarefa criada com sucesso")
     })
-    public ResponseEntity<TarefaResponse> criarTarefa(@RequestBody  TarefaRequest tarefaRequest) {
+    public ResponseEntity<TarefaResponse> criarTarefa(@Valid @RequestBody  TarefaRequest tarefaRequest) {
         Tarefa novaTarefa = tarefaService.criarTarefa(tarefaMapper.toEntity(tarefaRequest));
         return ResponseEntity.ok(tarefaMapper.toResponse(novaTarefa));
     }
 
+    /*====================================================*
+     * Endpoint para atualizar uma tarefa existente.
+     *
+     * @param id o ID da tarefa a ser atualizada.
+     * @param tarefaRequest os dados atualizados da tarefa.
+     * @return ResponseEntity contendo a tarefa atualizada.
+     *=====================================================*/
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza uma Tarefa existente", description = "Atualiza os dados de uma tarefa existente com base no ID fornecido.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Tarefa atualizada com sucesso")
     })
     public ResponseEntity<TarefaResponse> atualizarTarefa(@PathVariable Long id, 
-                                                          @RequestBody TarefaRequest tarefaRequest) {
+                                                          @Valid @RequestBody TarefaRequest tarefaRequest) {
         Tarefa tarefaAtualizada = tarefaService.atualizarTarefa(id, tarefaMapper.toEntity(tarefaRequest));
         return ResponseEntity.ok(tarefaMapper.toResponse(tarefaAtualizada));
     } 
 
+    /*====================================================*
+     * Endpoint para deletar uma tarefa existente.
+     *
+     * @param id o ID da tarefa a ser deletada.
+     * @return ResponseEntity sem conteúdo.
+     *=====================================================*/
     @DeleteMapping ("/{id}")
     @Operation(summary = "Deleta uma Tarefa", description = "Deleta uma tarefa existente com base no ID fornecido.")
     @ApiResponses(value = {
