@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.rocha.tarefas.domain.Tarefa;
+import com.rocha.tarefas.model.Tarefa;
 import com.rocha.tarefas.repository.TarefaRepository;
 
 @Service 

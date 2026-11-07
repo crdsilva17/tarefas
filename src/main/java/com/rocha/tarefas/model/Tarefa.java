@@ -1,4 +1,4 @@
-package com.rocha.tarefas.domain;
+package com.rocha.tarefas.model;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;

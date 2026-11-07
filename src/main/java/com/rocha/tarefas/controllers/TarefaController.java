@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rocha.tarefas.domain.Tarefa;
+import com.rocha.tarefas.model.Tarefa;
 import com.rocha.tarefas.dto.TarefaRequest;
 import com.rocha.tarefas.dto.TarefaResponse;
 import com.rocha.tarefas.mapper.TarefaMapper;

@@ -2,7 +2,7 @@ package com.rocha.tarefas.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.rocha.tarefas.domain.Tarefa;
+import com.rocha.tarefas.model.Tarefa;
 import com.rocha.tarefas.dto.TarefaRequest;
 import com.rocha.tarefas.dto.TarefaResponse;
 
