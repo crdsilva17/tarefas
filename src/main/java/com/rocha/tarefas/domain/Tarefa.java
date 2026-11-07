@@ -1,11 +1,10 @@
 package com.rocha.tarefas.domain;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity 
 public class Tarefa {
