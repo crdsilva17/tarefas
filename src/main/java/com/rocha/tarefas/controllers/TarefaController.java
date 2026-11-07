@@ -19,8 +19,14 @@ import com.rocha.tarefas.dto.TarefaResponse;
 import com.rocha.tarefas.mapper.TarefaMapper;
 import com.rocha.tarefas.services.TarefaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/tarefas")
+@Tag(name = "Tarefas", description = "Endpoints para gerenciamento de tarefas")
 public class TarefaController {
     private final TarefaService tarefaService;
     private final TarefaMapper tarefaMapper;
@@ -30,7 +36,11 @@ public class TarefaController {
         this.tarefaMapper = tarefaMapper;
     }
 
-    @GetMapping 
+    @GetMapping
+    @Operation(summary = "Busca Lista de Tarefas", description = "Retorna a lista de todas as tarefas.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Tarefas localizadas com sucesso")
+    }) 
     public ResponseEntity<List<TarefaResponse>> getTarefaService() {
         return ResponseEntity.ok(tarefaService.listarTarefas()
                                 .stream().map(tarefaMapper::toResponse)
@@ -38,12 +48,20 @@ public class TarefaController {
     }
 
     @PostMapping
+    @Operation(summary = "Cria uma nova Tarefa", description = "Cria uma nova tarefa com base nos dados fornecidos.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Tarefa criada com sucesso")
+    })
     public ResponseEntity<TarefaResponse> criarTarefa(@RequestBody  TarefaRequest tarefaRequest) {
         Tarefa novaTarefa = tarefaService.criarTarefa(tarefaMapper.toEntity(tarefaRequest));
         return ResponseEntity.ok(tarefaMapper.toResponse(novaTarefa));
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualiza uma Tarefa existente", description = "Atualiza os dados de uma tarefa existente com base no ID fornecido.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Tarefa atualizada com sucesso")
+    })
     public ResponseEntity<TarefaResponse> atualizarTarefa(@PathVariable Long id, 
                                                           @RequestBody TarefaRequest tarefaRequest) {
         Tarefa tarefaAtualizada = tarefaService.atualizarTarefa(id, tarefaMapper.toEntity(tarefaRequest));
@@ -51,6 +69,10 @@ public class TarefaController {
     } 
 
     @DeleteMapping ("/{id}")
+    @Operation(summary = "Deleta uma Tarefa", description = "Deleta uma tarefa existente com base no ID fornecido.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Tarefa deletada com sucesso")
+    })
     public ResponseEntity<Void> deletarTarefa(@PathVariable Long id) {
         tarefaService.deletarTarefa(id);
         return ResponseEntity.noContent().build();
